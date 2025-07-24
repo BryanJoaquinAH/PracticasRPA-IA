@@ -1,0 +1,781 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Iniciar",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        2680,
+        2495
+      ],
+      "id": "61705c1f-1678-4351-a771-92c986794cbf"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "currentStartIndex",
+              "value": 1,
+              "type": "number",
+              "id": "ad0d04ff-5de7-4d47-9024-658c42891945"
+            },
+            {
+              "name": "maxPages",
+              "value": 3,
+              "type": "number",
+              "id": "1be14a4c-f1c4-4136-8e26-4bdf9b150b5d"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Establecer campos",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2900,
+        2495
+      ],
+      "id": "162b0143-439b-4684-8181-056d9a2aa917"
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "AIzaSyDB8KnXsVp4FSl8qYYVIFWN5SUQTT_hMGk"
+            },
+            {
+              "name": "cx",
+              "value": "9165078cf080149bb"
+            },
+            {
+              "name": "q",
+              "value": "Ingeniero docente UTPL site:linkedin.com/in"
+            },
+            {
+              "name": "start",
+              "value": "={{ $runIndex == 0 ? $node[\"Establecer campos\"].json.currentStartIndex : $node[\"Pagination\"].json.startIndex }}\n\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Buscar en Google",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3340,
+        2495
+      ],
+      "id": "11e1499b-133d-4fc6-906e-b491baf485d8"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1aF2G9DQHxw8YBygxTT9AxFTWgJ0mI5GmOrFfmWU44vc",
+          "mode": "list",
+          "cachedResultName": "linkedin",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aF2G9DQHxw8YBygxTT9AxFTWgJ0mI5GmOrFfmWU44vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aF2G9DQHxw8YBygxTT9AxFTWgJ0mI5GmOrFfmWU44vc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "imagen": "={{ $json.imagen }} ",
+            "URL del perfil LinkedIn": "={{ $json.enlace }}",
+            "Nombre completo": "={{ $json.nombre  }}",
+            "Título profesional o cargo": "={{ $json.cargo }}",
+            "Empresa actual o lugar de trabajo": "={{ $json.empresa }}",
+            "Descripcion": "={{ $json.descripcion }}",
+            "indice": "={{ $json.indice }}",
+            "Sector": "={{ $json.sector }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nombre completo",
+              "displayName": "Nombre completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Título profesional o cargo",
+              "displayName": "Título profesional o cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Empresa actual o lugar de trabajo",
+              "displayName": "Empresa actual o lugar de trabajo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sector",
+              "displayName": "Sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "URL del perfil LinkedIn",
+              "displayName": "URL del perfil LinkedIn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "imagen",
+              "displayName": "imagen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Descripcion",
+              "displayName": "Descripcion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "indice",
+              "displayName": "indice",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        4220,
+        2420
+      ],
+      "id": "f5600a9c-7de8-49f7-a0bf-9606b641b474",
+      "name": "Añadir a Google",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "x2aZReZAldcZtlmL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const currentIndex = $json.indice || 1;\nconst maxPages = $json.maxPages || 3;\n\nif (currentIndex > maxPages) {\n  return [{ json: { continueLoop: false } }];\n} else {\n  return [{ json: { continueLoop: true, startIndex: currentIndex } }];\n}\n\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4440,
+        2420
+      ],
+      "id": "7151e2ee-e1f1-4505-95b2-04c796a8da55",
+      "name": "Pagination"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "faef2862-80a4-465b-9e0b-be5b9753dcbd",
+              "leftValue": "={{ $json.continueLoop }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "7954e196-ca33-45ca-9384-6536dac40973",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "66a782f2-3ca4-4406-b472-2d96c0965e64",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        4730,
+        2420
+      ],
+      "id": "823449c2-fd67-4c3b-bc5e-d3f461f22fe2",
+      "name": "Comprobación de paginación"
+    },
+    {
+      "parameters": {
+        "amount": 10,
+        "unit": "seconds"
+      },
+      "name": "Wait antes de Google",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        3120,
+        2495
+      ],
+      "id": "a3d57669-1d7b-4fc2-8feb-2d6cb8653f44",
+      "webhookId": "970e5695-e988-4a5c-854f-f7404e13eeee"
+    },
+    {
+      "parameters": {
+        "amount": 10,
+        "unit": "seconds"
+      },
+      "name": "Wait antes de extraer resultados",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        3560,
+        2420
+      ],
+      "id": "19f98fd0-daa4-43bb-89c8-77aae927c2fa",
+      "webhookId": "b0d116e5-da1f-4e04-b04c-529509ddf8f5"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "name": "Wait antes de agregar a google",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4000,
+        2420
+      ],
+      "id": "6f9075f8-1edb-4d85-b16a-234dafe34b53",
+      "webhookId": "0ef331c3-72cf-4b59-a968-cfab46304420"
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\n\n// Para depuración y trazabilidad\nconsole.log(\"Respuesta de Google:\", JSON.stringify(response, null, 2));\n\nconst items = response.items || [];\n\nconst results = items\n  .map((item, idx) => {\n    const snippet = item.snippet || '';\n    let cargo = '';\n    let empresa = '';\n\n    const partes = snippet.split(/[\\n.,;-]/).map(s => s.trim()).filter(Boolean);\n    if (partes.length >= 2) {\n      cargo = partes[0];\n      empresa = partes[1];\n    } else if (partes.length === 1) {\n      cargo = partes[0];\n    }\n\n    const nombre = item.title?.split(' - ')[0]?.trim() || '';\n    const enlace = item.link || '';\n    const descripcion = snippet || '';\n    const imagen = item.pagemap?.cse_thumbnail?.[0]?.src || '';\n    const indice = response.queries?.nextPage?.[0]?.startIndex || response.queries?.request?.[0]?.startIndex || 1;\n\n    // Condición: si no tiene nombre, cargo, empresa o enlace, se omite\n    if (!nombre && !cargo && !empresa && !enlace) {\n      console.log(`Perfil omitido (vacío) en índice ${idx + 1}`);\n      return null;\n    }\n\n    return {\n      nombre,\n      cargo: cargo || 'No especificado',\n      empresa: empresa || 'No especificada',\n      enlace,\n      descripcion,\n      imagen,\n      indice,\n      fechaExtraccion: new Date().toISOString(),\n      sector: 'Ingeniería'\n    };\n  })\n  .filter(profile => profile !== null); // Quita perfiles omitidos\n\n// Si no hay resultados válidos, evitar insertar vacío\nif (results.length === 0) {\n  console.log(\" No se encontraron perfiles válidos en esta página de resultados.\");\n  return [];\n}\n\n// Retorna perfiles válidos para insertarse en la hoja de Google\nreturn results.map(r => ({ json: r }));\n"
+      },
+      "name": "Extraer resultados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3780,
+        2420
+      ],
+      "id": "ca174e41-f878-42ac-a230-441277a96ba1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Eres un asistente experto en extracción y enriquecimiento de datos profesionales a partir de perfiles de LinkedIn.\n\nAnaliza cuidadosamente toda la descripción del perfil y el enlace proporcionados:\n\nEnlace: {{ $json.enlace }}\nDescripción: {{ $json.descripcion }}\n\nExtrae y devuelve un JSON estructurado con estos campos:\n\n    nombre_completo\n\n    cargo_actual\n\n    empresa_actual\n\n    sector\n\n    correo\n\n    telefono\n\n    pais\n\n    ciudad\n\n    universidad\n\n    titulo_universitario\n\n    experiencia_laboral\n\n    habilidades_tecnicas\n\n    idiomas\n\n    linkedin\n\n    notas_adicionales\n\nSi un campo no puede ser detectado, asigna null.\n\nDevuelve exclusivamente un único objeto JSON válido en una sola línea, sin saltos de línea, sin espacios innecesarios, sin explicaciones, sin comentarios, sin bloques de código ni texto adicional antes o después.\n\nEjemplo de cómo debe verse la salida:\n\n{\"nombre_completo\":\"Ramiro Leonardo Ramirez Coronel\",\"cargo_actual\":\"Docente Investigador en la UTPL\",\"empresa_actual\":\"Universidad Técnica Particular de Loja\",\"sector\":\"Educación\",\"correo\":null,\"telefono\":null,\"pais\":\"Ecuador\",\"ciudad\":\"Loja\",\"universidad\":\"Universidad Técnica Particular de Loja\",\"titulo_universitario\":\"Ingeniero en Sistemas Informáticos y Computación\",\"experiencia_laboral\":\"Más de 10 años como docente investigador en el área de informática aplicada.\",\"habilidades_tecnicas\":\"Investigación, Docencia, Desarrollo de software, Análisis de datos\",\"idiomas\":\"Español, Inglés\",\"linkedin\":\"https://ec.linkedin.com/in/ramiro-leonardo-ramirez-coronel-b580a97\",\"notas_adicionales\":\"Participante activo en congresos internacionales de educación tecnológica.\"}\n\nNo devuelvas absolutamente nada más que el objeto JSON en una sola línea.",
+        "batching": {}
+      },
+      "name": "Basic LLM Chain Enrichment",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        4300,
+        2720
+      ],
+      "id": "d7009a85-7039-4a56-b398-de2d0599e73b"
+    },
+    {
+      "parameters": {
+        "jsCode": "const texto = $json.texto;\n\n// Elimina saltos de línea y espacios innecesarios\nconst textoLimpio = texto.replace(/\\n/g, '').trim();\n\n// Verifica si el string empieza y termina con comillas, lo deserializa de ser necesario\nlet jsonString = textoLimpio;\nif (jsonString.startsWith('\"') && jsonString.endsWith('\"')) {\n    jsonString = JSON.parse(jsonString);\n}\n\ntry {\n    const parsed = JSON.parse(jsonString);\n    return [{ json: parsed }];\n} catch (error) {\n    return [{\n        json: {\n            error: error.message,\n            texto_crudo: texto,\n            texto_limpio: jsonString\n        }\n    }];\n}\n"
+      },
+      "name": "Process LLM Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4900,
+        2720
+      ],
+      "id": "deca5856-8f60-4cc5-af62-074b0c400bc9"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1aF2G9DQHxw8YBygxTT9AxFTWgJ0mI5GmOrFfmWU44vc",
+          "mode": "list",
+          "cachedResultName": "linkedin",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aF2G9DQHxw8YBygxTT9AxFTWgJ0mI5GmOrFfmWU44vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1708178359,
+          "mode": "list",
+          "cachedResultName": "Hoja 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aF2G9DQHxw8YBygxTT9AxFTWgJ0mI5GmOrFfmWU44vc/edit#gid=1708178359"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nombre_completo": "={{$json[\"nombre_completo\"]}}",
+            "cargo_actual": "={{$json[\"cargo_actual\"]}}",
+            "empresa_actual": "={{$json[\"empresa_actual\"]}}",
+            "sector": "={{$json[\"sector\"]}}",
+            "linkedin": "={{$json[\"linkedin\"]}}",
+            "correo": "={{$json[\"correo\"]}}",
+            "telefono": "={{$json[\"telefono\"]}}",
+            "pais": "={{$json[\"pais\"]}}",
+            "ciudad": "={{$json[\"ciudad\"]}}",
+            "universidad": "={{$json[\"universidad\"]}}",
+            "titulo_universitario": "={{$json[\"titulo_universitario\"]}}",
+            "experiencia_laboral": "={{$json[\"experiencia_laboral\"]}}",
+            "habilidades_tecnicas": "={{$json[\"habilidades_tecnicas\"]}}",
+            "idiomas": "={{$json[\"idiomas\"]}}",
+            "notas_adicionales": "={{$json[\"notas_adicionales\"]}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nombre_completo",
+              "displayName": "nombre_completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "cargo_actual",
+              "displayName": "cargo_actual",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "empresa_actual",
+              "displayName": "empresa_actual",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "sector",
+              "displayName": "sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "linkedin",
+              "displayName": "linkedin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "correo",
+              "displayName": "correo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "telefono",
+              "displayName": "telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "pais",
+              "displayName": "pais",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ciudad",
+              "displayName": "ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "universidad",
+              "displayName": "universidad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "titulo_universitario",
+              "displayName": "titulo_universitario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "experiencia_laboral",
+              "displayName": "experiencia_laboral",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "habilidades_tecnicas",
+              "displayName": "habilidades_tecnicas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "idiomas",
+              "displayName": "idiomas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "notas_adicionales",
+              "displayName": "notas_adicionales",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "name": "Add to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        5160,
+        2720
+      ],
+      "id": "192e3e5d-0046-452c-9cf9-b4004d65a02c",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "x2aZReZAldcZtlmL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-r1-0528:free",
+        "options": {}
+      },
+      "name": "Deepseek Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        4320,
+        2900
+      ],
+      "id": "d2482eb4-abce-426e-8309-dcc3a89d3e3f",
+      "credentials": {
+        "openRouterApi": {
+          "id": "b3S35bkDjfZY7JwD",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": "Da6njBR05JWvNCJh",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "name": "Llamar subflujo LLM",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        4000,
+        2720
+      ],
+      "id": "0428c4bf-501b-44d3-9f20-a7a5d9e894b8"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Iniciar": {
+      "main": [
+        [
+          {
+            "node": "Establecer campos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Establecer campos": {
+      "main": [
+        [
+          {
+            "node": "Wait antes de Google",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar en Google": {
+      "main": [
+        [
+          {
+            "node": "Wait antes de extraer resultados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Añadir a Google": {
+      "main": [
+        [
+          {
+            "node": "Pagination",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pagination": {
+      "main": [
+        [
+          {
+            "node": "Comprobación de paginación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Comprobación de paginación": {
+      "main": [
+        [
+          {
+            "node": "Buscar en Google",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait antes de Google": {
+      "main": [
+        [
+          {
+            "node": "Buscar en Google",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait antes de extraer resultados": {
+      "main": [
+        [
+          {
+            "node": "Extraer resultados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait antes de agregar a google": {
+      "main": [
+        [
+          {
+            "node": "Añadir a Google",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extraer resultados": {
+      "main": [
+        [
+          {
+            "node": "Wait antes de agregar a google",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Llamar subflujo LLM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain Enrichment": {
+      "main": [
+        [
+          {
+            "node": "Process LLM Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process LLM Output": {
+      "main": [
+        [
+          {
+            "node": "Add to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deepseek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain Enrichment",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Llamar subflujo LLM": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain Enrichment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "41c74a67-ee0f-40fd-8f6d-d490741f62db",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cf015a74cd139fa4aa79010af1bdac7d3d948173b5ad1635067b853f12adb208"
+  },
+  "id": "Da6njBR05JWvNCJh",
+  "tags": []
+}
